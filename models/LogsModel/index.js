@@ -12,4 +12,4 @@ const LogModel = new Schema(
 	{ collection: "logs" }
 );
 
-module.exports = mongoose.model("LogModel", LogModel, "logs");
+module.exports = mongoose.model("LogModel", LogModel);

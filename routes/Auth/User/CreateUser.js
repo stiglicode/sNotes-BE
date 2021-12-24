@@ -2,15 +2,18 @@ const express = require("express");
 
 const router = express.Router();
 
-const UserModel = require("../../../models/AuthModels/UserModel");
+const UserModel = require("../../../models/UserModel");
 
-router.get("/users", async (req, res) => {
+router.post("/create-user", async (req, res, next) => {
 	try {
-		const allUsers = await UserModel.find({});
+		const id = await UserModel.find({});
+		const newUser = new UserModel({ ...req.body, id: id.length + 1 });
 
-		return res.json(allUsers);
-	} catch (err) {
-		throw new Error(err);
+		const addUser = await newUser.save();
+
+		return res.json(addUser);
+	} catch (error) {
+		return next(error);
 	}
 });
 
