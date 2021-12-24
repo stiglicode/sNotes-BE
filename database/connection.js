@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
-const production_uri = process.env.MONGODB_URI;
-const local_uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@snotes-cluster.gzx7r.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@snotes-cluster.gzx7r.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const db_connection = () => {
-	mongoose.connect(production_uri || local_uri, {
+	mongoose.connect(uri, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});
