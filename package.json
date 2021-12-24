@@ -1,0 +1,28 @@
+{
+  "name": "snotes-api-server",
+  "version": "1.0.0",
+  "description": "Api server for sNotes application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "stiglic",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-jwt": "^6.1.0",
+    "helmet": "^4.6.0",
+    "monk": "^7.3.4",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "eslint": "^8.5.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  },
+
+}
