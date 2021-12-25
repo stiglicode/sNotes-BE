@@ -5,10 +5,10 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const { db_connection } = require("./database/connection");
-const LogModel = require("./models/LogsModel/index");
 
-const CreateUserRouter = require("./routes/Auth/User/CreateUser");
-const UsersRouter = require("./routes/Auth/User/GetUser");
+const CreateUserRouter = require("./routes/User/CreateUser");
+const UsersRouter = require("./routes/User/GetUser");
+const LoginRouter = require("./routes/Auth/LoginUser");
 
 const { baseUrl } = require("./utilities/base-url");
 
@@ -24,18 +24,17 @@ app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(express.json());
 
 db_connection();
-app.get("/", async (req, res, next) => {
+app.get("/", async (req, res) => {
 	// res.json({ message: "Product api v1" });
-	try {
-		const logs = await LogModel.find({});
-		return res.json(logs);
-	} catch (error) {
-		next(error);
-	}
+	return res.json({
+		message: "Welcome to sNotes api server",
+		version: process.env.BASE_URL,
+	});
 });
 
 app.use(baseUrl("/auth"), UsersRouter);
 app.use(baseUrl("/auth"), CreateUserRouter);
+app.use(baseUrl("/auth"), LoginRouter);
 
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);

@@ -2,10 +2,10 @@ const express = require("express");
 
 const router = express.Router();
 
-const UserModel = require("../../../models/UserModel");
-const { lastQuery } = require("../../../utilities/last-query");
+const UserModel = require("../../models/UserModel");
+const { verifyUserToken } = require("../../middlewares/verify-token");
 
-router.get("/users", async (req, res) => {
+router.get("/users", verifyUserToken, async (req, res) => {
 	try {
 		const allUsers = await UserModel.find({});
 
@@ -14,20 +14,20 @@ router.get("/users", async (req, res) => {
 		throw new Error(err);
 	}
 });
-router.get("/user/:id", async (req, res) => {
+router.get("/user/:id", verifyUserToken, async (req, res, next) => {
 	try {
 		const oneUser = await UserModel.find({
-			id: lastQuery(req),
+			id: req.params.id,
 		});
 		return res.json(oneUser);
 	} catch (err) {
 		next(err);
 	}
 });
-router.get("/user/permission/:permission", async (req, res) => {
+router.get("/user/permission/:permission", verifyUserToken, async (req, res, next) => {
 	try {
 		const userPermission = await UserModel.find({
-			permission: lastQuery(req),
+			permission: req.params.permission,
 		});
 		return res.json(userPermission);
 	} catch (err) {

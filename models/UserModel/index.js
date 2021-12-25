@@ -25,6 +25,10 @@ const UserModel = new Schema(
 			required: true,
 			minLength: 8,
 		},
+		email: {
+			type: String,
+			required: true,
+		},
 		id: {
 			type: Number,
 			required: true,
