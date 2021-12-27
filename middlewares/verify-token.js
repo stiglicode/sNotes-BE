@@ -7,7 +7,7 @@ const verifyUserToken = async (req, res, next) => {
 	if (!accessToken) {
 		return res.status(401).json({
 			status: 401,
-			message: "No token found!",
+			message: "Access denied!",
 		});
 	}
 

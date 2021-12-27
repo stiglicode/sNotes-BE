@@ -1,7 +1,7 @@
 const express = require("express");
 const JWT = require("jsonwebtoken");
 const router = express.Router();
-// const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 const UserModel = require("../../models/UserModel");
 
@@ -12,18 +12,18 @@ router.post("/login", async (req, res, next) => {
 
 		const user = users.find((user) => user?.email === email);
 		if (user) {
-			// const hashedPassword = await bcrypt.hash(password, 10);
-			const isValidPassword = user?.password === password;
+			const isValidPassword = await bcrypt.compare(password, user.password);
 
 			if (isValidPassword) {
 				const token = await JWT.sign({ _id }, process.env.JWT_SECRET, { expiresIn: 360000 });
-				return res.json({ message: "You are logged in!", token });
+				return res.json({ status: 200, message: "You are logged in!", token });
 			} else {
-				return res.status(400).json({ status: 400, message: "Wrong password !" });
+				return res.json({ status: 400, error: "e-p", message: "Wrong password !" });
 			}
 		} else {
-			return res.status(404).json({
+			return res.json({
 				status: 404,
+				error: "e-e",
 				message: "User doesn't exist!",
 			});
 		}
