@@ -24,8 +24,8 @@ app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(express.json());
 
 db_connection();
-app.get("/", async (req, res) => {
-	// res.json({ message: "Product api v1" });
+
+app.get(baseUrl("/"), (req, res) => {
 	return res.json({
 		message: "Welcome to sNotes api server",
 		version: process.env.BASE_URL,
