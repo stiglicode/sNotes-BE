@@ -1,7 +1,7 @@
 const JWT = require("jsonwebtoken");
 
 const verifyUserToken = async (req, res, next) => {
-	const accessToken = req.headers["x-access-token"];
+	const accessToken = req.body["x-access-token"] || req.headers["x-access-token"];
 	if (!accessToken) {
 		return res.status(401).json({
 			status: 401,
@@ -10,9 +10,14 @@ const verifyUserToken = async (req, res, next) => {
 	}
 
 	try {
-		const user = await JWT.verify(accessToken, process.env.JWT_SECRET);
-		req._id = user._id;
-		next();
+		await JWT.verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
+			if (err) {
+				return next();
+			} else {
+				req._id = decoded._id;
+				return next();
+			}
+		});
 	} catch (error) {
 		return res.status(400).json({
 			status: 400,
