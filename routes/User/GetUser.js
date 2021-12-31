@@ -35,4 +35,24 @@ router.get("/user/permission/:permission", verifyUserToken, async (req, res, nex
 	}
 });
 
+router.post("/user", verifyUserToken, async (req, res, next) => {
+	try {
+		let user = await UserModel.find({
+			_id: req._id,
+		});
+
+		user = user[0];
+
+		return res.json({
+			nickname: user.nickname,
+			firstname: user.firstname,
+			lastname: user.lastname,
+			permissions: user.permission,
+			email: user.email,
+		});
+	} catch (err) {
+		next(err);
+	}
+});
+
 module.exports = router;
