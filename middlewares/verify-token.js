@@ -2,6 +2,7 @@ const JWT = require("jsonwebtoken");
 
 const verifyUserToken = async (req, res, next) => {
 	const accessToken = req.body["x-access-token"] || req.headers["x-access-token"];
+	console.log(accessToken);
 	if (!accessToken) {
 		return res.status(401).json({
 			status: 401,

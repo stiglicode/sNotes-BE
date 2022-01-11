@@ -9,6 +9,7 @@ const { db_connection } = require("./database/connection");
 const CreateUserRouter = require("./routes/User/CreateUser");
 const UsersRouter = require("./routes/User/GetUser");
 const LoginRouter = require("./routes/Auth/LoginUser");
+const RecordsRouter = require("./routes/Records/RecordsHard");
 
 const { baseUrl } = require("./utilities/base-url");
 
@@ -35,6 +36,7 @@ app.get(baseUrl("/"), (req, res) => {
 app.use(baseUrl("/auth"), UsersRouter);
 app.use(baseUrl("/auth"), CreateUserRouter);
 app.use(baseUrl("/auth"), LoginRouter);
+app.use(baseUrl("/records"), RecordsRouter);
 
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
