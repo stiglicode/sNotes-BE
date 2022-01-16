@@ -19,7 +19,7 @@ const RecordModel = new Schema(
 		},
 		title: {
 			type: String,
-			default: "New file or fiolder",
+			default: "New entity",
 			required: true,
 		},
 		parent: {
