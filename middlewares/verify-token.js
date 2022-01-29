@@ -2,7 +2,6 @@ const JWT = require("jsonwebtoken");
 
 const verifyUserToken = async (req, res, next) => {
 	const accessToken = req.body["x-access-token"] || req.headers["x-access-token"];
-	console.log(accessToken);
 	if (!accessToken) {
 		return res.status(401).json({
 			status: 401,
@@ -12,10 +11,17 @@ const verifyUserToken = async (req, res, next) => {
 
 	try {
 		await JWT.verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
+			console.log(decoded);
 			if (err) {
-				return next();
+				return res.status(401).json({
+					status: 401,
+					message: "Token expired",
+				});
+				// return next(err);
 			} else {
 				req._id = decoded._id;
+				req.tokenExpireIn = decoded.exp;
+				req.tokenCreatedAt = decoded.iat;
 				return next();
 			}
 		});
@@ -27,6 +33,4 @@ const verifyUserToken = async (req, res, next) => {
 	}
 };
 
-module.exports = {
-	verifyUserToken,
-};
+module.exports = verifyUserToken;
