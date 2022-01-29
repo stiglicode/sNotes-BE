@@ -4,7 +4,7 @@ const router = express.Router();
 
 const RecordsModel = require("../../models/RecordsModel/record");
 const RecordDetailModel = require("../../models/RecordsModel/recordDetail");
-const { verifyUserToken } = require("../../middlewares/verify-token");
+const { verifyUserToken } = require("../../middlewares");
 
 router.get("/one", verifyUserToken, async (req, res) => {
 	try {
