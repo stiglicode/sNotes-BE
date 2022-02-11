@@ -6,14 +6,39 @@ const UserModel = require("../../models/UserModel");
 const { verifyUserToken } = require("../../middlewares");
 
 router.get("/users", verifyUserToken, async (req, res) => {
+	const formattedUser = (users) => {
+		return users.map((user) => {
+			return {
+				id: user._id,
+				nickname: user.nickname,
+				firstname: user.firstname,
+				lastname: user.lastname,
+			};
+		});
+	};
 	try {
-		const allUsers = await UserModel.find({});
+		if (req.query.offset && req.query.length) {
+			const allUsers = await UserModel.find({
+				_id: { $nin: req._id },
+			});
+			const offsetUsers = allUsers.filter(
+				(user, index) => index + 1 >= req.query.offset && index + 1 <= +req.query.offset + (+req.query.length - 1)
+			);
 
-		return res.json(allUsers);
+			return res.json({
+				count: allUsers.length,
+				data: formattedUser(offsetUsers),
+			});
+		} else {
+			const allUsers = await UserModel.find({});
+
+			return res.json(formattedUser(allUsers));
+		}
 	} catch (err) {
 		throw new Error(err);
 	}
 });
+
 router.get("/user/:id", verifyUserToken, async (req, res, next) => {
 	try {
 		const oneUser = await UserModel.find({

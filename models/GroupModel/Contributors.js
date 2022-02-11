@@ -26,6 +26,10 @@ const GroupContributorsModel = new Schema(
 			type: String,
 			required: true,
 		},
+		pending: {
+			type: Boolean,
+			default: true,
+		},
 		isRevoked: {
 			type: Boolean,
 			required: false,

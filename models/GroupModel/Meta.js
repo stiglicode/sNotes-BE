@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+// let counter = 1;
+// let CountedId = {type: Number, default: () => counter++};
+
 const { Schema } = mongoose;
 
 const GroupModel = new Schema(
@@ -58,6 +61,7 @@ const GroupModel = new Schema(
 			required: false,
 			default: false,
 		},
+		// id: CountedId,
 	},
 	{ collection: "groups" }
 );

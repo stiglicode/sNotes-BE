@@ -13,6 +13,7 @@ const RecordsRouter = require("./routes/Records/RecordsHard");
 const GroupMetaRouter = require("./routes/Groups/Meta");
 const InitGroupRouter = require("./routes/Groups/InitGroup");
 const GroupRouter = require("./routes/Groups");
+const NotificationRouter = require("./routes/Notification");
 
 const { baseUrl } = require("./utilities/base-url");
 const { verifyUserToken } = require("./middlewares");
@@ -48,6 +49,7 @@ app.use(baseUrl("/records"), RecordsRouter);
 app.use(baseUrl("/groups"), GroupMetaRouter);
 app.use(baseUrl("/groups"), GroupRouter);
 app.use(baseUrl("/groups"), InitGroupRouter);
+app.use(baseUrl("/notification"), NotificationRouter);
 
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
