@@ -43,16 +43,24 @@ router.get("/", verifyUserToken, async (req, res, next) => {
 						const allContributors = [
 							...allGroupContributors.map((allCont) => {
 								if (JSON.stringify(allCont.group_id) === JSON.stringify(meta._id)) {
-									return allUsers.find((user) => JSON.stringify(user._id) === JSON.stringify(allCont.contributor_id))
-										.nickname;
-								} else return "null";
+									return {
+										name: allUsers.find((user) => JSON.stringify(user._id) === JSON.stringify(allCont.contributor_id))
+											.nickname,
+										id: allCont.contributor_id,
+										since: allCont.created_at,
+										permission: allCont.permission,
+									};
+								} else {
+									return "null";
+								}
+								// return ;
 							}),
-						];
+						].filter((e) => e !== "null");
 						delete con.groupID;
 						return customizedMeta.push({
 							...con,
-							groupAuthor: allUsers.find((user) => JSON.stringify(user._id) === JSON.stringify(meta.author)).nickname,
-							groupContributors: allContributors.filter((e) => e !== "null"),
+							groupAuthor: allUsers.find((user) => JSON.stringify(user._id) === JSON.stringify(meta.author))._id,
+							groupContributors: allContributors,
 							groupIcon: meta.icon,
 							groupName: meta.name,
 							groupShareable: meta.shareable,

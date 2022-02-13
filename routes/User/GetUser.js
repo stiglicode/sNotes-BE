@@ -74,6 +74,7 @@ router.post("/user", verifyUserToken, async (req, res, next) => {
 			lastname: user.lastname,
 			permissions: user.permission,
 			email: user.email,
+			id: req._id,
 		});
 	} catch (err) {
 		next(err);
