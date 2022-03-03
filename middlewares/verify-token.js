@@ -11,7 +11,6 @@ const verifyUserToken = async (req, res, next) => {
 
 	try {
 		await JWT.verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
-			console.log(decoded);
 			if (err) {
 				return res.status(401).json({
 					status: 401,
